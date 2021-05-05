@@ -1,17 +1,16 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <Calc />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Calc from "./components/calc.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
-  }
-}
+    Calc,
+  },
+};
 </script>
 
 <style lang="scss">
