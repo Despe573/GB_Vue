@@ -1,4 +1,4 @@
-# first-project
+# calc-project
 
 ## Project setup
 ```
