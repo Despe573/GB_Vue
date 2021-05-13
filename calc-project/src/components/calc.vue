@@ -58,7 +58,7 @@ export default {
   name: "Calculator",
   data() {
     return {
-      operand1: [0],
+      operand1: 0,
       operand2: 0,
       result: 0,
       error: "",
@@ -107,17 +107,27 @@ export default {
     },
     inputOp(key) {
       if (this.picked === "one") {
-        console.log(key, this.op1.length);
         if (key === 0 && this.op1.length === 0) {
-          this.clickPicked("one");
+          this.clickPicked("two");
         } else if (key === "<--" && this.op1.length > 0) {
           this.op1.pop();
           this.arrToString("one");
+        } else if (key === "<--" && this.op1.length === 0) {
+          this.clickPicked("two");
         } else {
           this.op1.push(key);
           this.arrToString("one");
         }
-        if (this.picked === "two") {
+      }
+      if (this.picked === "two") {
+        if (key === 0 && this.op2.length === 0) {
+          this.clickPicked("one");
+        } else if (key === "<--" && this.op2.length > 0) {
+          this.op2.pop();
+          this.arrToString("two");
+        } else if (key === "<--" && this.op2.length === 0) {
+          this.clickPicked("one");
+        } else {
           this.op2.push(key);
           this.arrToString("two");
         }
