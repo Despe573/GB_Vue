@@ -2,8 +2,19 @@
   <div>
     <div class="display">
       <div :class="[$style.error]" v-if="error">Ошибка! {{ error }}</div>
-      <input v-model="operand1" />
-      <input v-model="operand2" />
+      <br />
+      <input
+        v-model.number="operand1"
+        ref="op1"
+        placeholder="0"
+        @click="focus('op1')"
+      />
+      <input
+        v-model.number="operand2"
+        ref="op2"
+        placeholder="0"
+        @click="focus('op2')"
+      />
       = {{ result }}
     </div>
     <br />
@@ -30,23 +41,12 @@
       >
         {{ key }}
       </button>
+      <button @click="delOp">{{ backspace }}</button>
       <br />
       <br />
-      <input
-        type="radio"
-        id="one"
-        value="one"
-        v-model="picked"
-        @click="clickPicked(picked)"
-      />
+      <input type="radio" id="one" value="one" v-model="picked" />
       <label for="one">Операнд 1</label>
-      <input
-        type="radio"
-        id="two"
-        value="two"
-        v-model="picked"
-        @click="clickPicked(picked)"
-      />
+      <input type="radio" id="two" value="two" v-model="picked" />
       <label for="two">Операнд 2</label>
       <br />
     </div>
@@ -58,16 +58,15 @@ export default {
   name: "Calculator",
   data() {
     return {
-      operand1: 0,
-      operand2: 0,
+      operand1: "",
+      operand2: "",
       result: 0,
       error: "",
       operations: ["+", "-", "/", "*", "%", "**"],
-      keyboard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "<--"],
+      keyboard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
       checkKey: "",
-      picked: "",
-      op1: [],
-      op2: [],
+      picked: "one",
+      backspace: "<--",
     };
   },
   methods: {
@@ -105,54 +104,47 @@ export default {
           break;
       }
     },
+
     inputOp(key) {
-      if (this.picked === "one") {
-        if (key === 0 && this.op1.length === 0) {
-          this.clickPicked("two");
-        } else if (key === "<--" && this.op1.length > 0) {
-          this.op1.pop();
-          this.arrToString("one");
-        } else if (key === "<--" && this.op1.length === 0) {
-          this.clickPicked("two");
+      let { picked } = this;
+      let { operand1, operand2 } = this;
+      if (picked === "one") {
+        this.$refs.op1.focus();
+        if (key === 0 && operand1.length === 0) {
+          operand1 = "";
         } else {
-          this.op1.push(key);
-          this.arrToString("one");
+          this.operand1 = `${operand1}${key}`;
         }
       }
-      if (this.picked === "two") {
-        if (key === 0 && this.op2.length === 0) {
-          this.clickPicked("one");
-        } else if (key === "<--" && this.op2.length > 0) {
-          this.op2.pop();
-          this.arrToString("two");
-        } else if (key === "<--" && this.op2.length === 0) {
-          this.clickPicked("one");
+      if (picked === "two") {
+        this.$refs.op2.focus();
+        if (key === 0 && operand2.length === 0) {
+          operand2 = "";
         } else {
-          this.op2.push(key);
-          this.arrToString("two");
+          this.operand2 = `${operand2}${key}`;
         }
       }
     },
-    clickPicked(p) {
-      if (p === "two") {
-        this.operand1 = 0;
-        this.op1 = [];
+
+    delOp() {
+      let { picked } = this;
+      if (picked === "one") {
+        this.operand1 = this.operand1.slice(0, -1);
       }
-      if (p === "one") {
-        this.operand2 = 0;
-        this.op2 = [];
+      if (picked === "two") {
+        this.operand2 = this.operand2.slice(0, -1);
       }
     },
-    arrToString(param) {
-      if (param === "one") {
-        this.operand1 = this.op1.join("");
+
+    focus(ev) {
+      if (ev === "op1") {
+        this.picked = "one";
       }
-      if (param === "two") {
-        this.operand2 = this.op2.join("");
+      if (ev === "op2") {
+        this.picked = "two";
       }
     },
   },
-  computed: {},
 };
 </script>
 
