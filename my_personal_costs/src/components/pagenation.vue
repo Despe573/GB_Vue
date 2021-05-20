@@ -1,16 +1,20 @@
 <template>
   <div :class="[$style.center]">
     <div :class="[$style.wrapper]">
-      <div :class="[$style.pageBtn]">{{ pre }}</div>
-      <div
-        v-for="page in numOfLines / 5"
-        :key="page"
-        :class="[$style.pageBtn]"
-        @click="dispatchPage(page)"
-      >
-        {{ page }}
+      <div :class="[$style.pageBtn]" @click="clickPage(curPage - 1)">
+        {{ pre }}
       </div>
-      <div :class="[$style.pageBtn]">{{ next }}</div>
+      <div
+        v-for="p in numOfPage"
+        :key="p"
+        :class="[$style.pageBtn, { [$style.active]: curPage === p }]"
+        @click="clickPage(p)"
+      >
+        {{ p }}
+      </div>
+      <div :class="[$style.pageBtn]" @click="clickPage(curPage + 1)">
+        {{ next }}
+      </div>
     </div>
   </div>
 </template>
@@ -25,13 +29,21 @@ export default {
     };
   },
   props: {
-    numOfLines: {
-      type: Number,
-    },
+    length: Number,
+    itemsOnPage: Number,
+    curPage: Number,
   },
   methods: {
-    dispatchPage(page) {
-      this.$emit("PageNumber", page);
+    clickPage(p) {
+      if (p < 1 || p > this.numOfPage) {
+        return;
+      }
+      this.$emit("PageNumber", p);
+    },
+  },
+  computed: {
+    numOfPage() {
+      return Math.ceil(this.length / this.itemsOnPage);
     },
   },
 };
@@ -40,18 +52,18 @@ export default {
 <style lang="scss" module>
 .center {
   margin-bottom: 100px;
-  margin-left: 200px;
   background-color: #f7f7f7;
   font-family: "Roboto", sans-serif;
   color: #242424;
   font-size: 18px;
   font-weight: 100;
   box-sizing: border-box;
+  display: flex;
+  justify-content: center;
 }
 .wrapper {
   display: flex;
   justify-content: center;
-  width: 340px;
   border: 1px solid black;
   padding: 4px 0;
 }
@@ -61,5 +73,8 @@ export default {
   &:hover {
     color: blue;
   }
+}
+.active {
+  color: blue;
 }
 </style>

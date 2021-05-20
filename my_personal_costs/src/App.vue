@@ -8,7 +8,6 @@
         <PaymentTable :items="paymentsList" />
       </div>
     </main>
-    <Pagenation :numOfLines="calcNumOfLines" />
   </div>
 </template>
 
@@ -16,7 +15,6 @@
 import PaymentForm from "./components/paymentForm.vue";
 import PaymentTable from "./components/paymentTable.vue";
 import Button from "./components/button.vue";
-import Pagenation from "./components/pagenation.vue";
 
 export default {
   name: "App",
@@ -24,11 +22,24 @@ export default {
     PaymentTable,
     PaymentForm,
     Button,
-    Pagenation,
   },
   data() {
     return {
       paymentsList: [
+        { date: "13.05.2021", category: "Обучение", price: 1000 },
+        { date: "13.05.2021", category: "Обучение", price: 1000 },
+        { date: "13.05.2021", category: "Обучение", price: 1000 },
+        { date: "13.05.2021", category: "Обучение", price: 1000 },
+        { date: "13.05.2021", category: "Обучение", price: 1000 },
+        { date: "13.05.2021", category: "Обучение", price: 1000 },
+        { date: "13.05.2021", category: "Обучение", price: 1000 },
+        { date: "13.05.2021", category: "Обучение", price: 1000 },
+        { date: "13.05.2021", category: "Обучение", price: 1000 },
+        { date: "13.05.2021", category: "Обучение", price: 1000 },
+        { date: "13.05.2021", category: "Обучение", price: 1000 },
+        { date: "13.05.2021", category: "Обучение", price: 1000 },
+        { date: "13.05.2021", category: "Обучение", price: 1000 },
+        { date: "13.05.2021", category: "Обучение", price: 1000 },
         { date: "13.05.2021", category: "Обучение", price: 1000 },
         { date: "13.05.2021", category: "Обучение", price: 1000 },
         { date: "13.05.2021", category: "Обучение", price: 1000 },
@@ -57,11 +68,6 @@ export default {
         this.title = "Добавить +";
         this.active = false;
       }
-    },
-  },
-  computed: {
-    calcNumOfLines() {
-      return this.paymentsList.length;
     },
   },
 };
