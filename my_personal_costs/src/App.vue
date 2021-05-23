@@ -4,8 +4,8 @@
     <main>
       <Button @click="clickBtn" :title="title" />
       <div :class="[$style.wrapper]">
-        <PaymentForm @addNewPayment="add" v-show="this.title === 'Закрыть'" />
-        <PaymentTable :items="paymentsList" />
+        <PaymentForm v-show="this.title === 'Закрыть'" />
+        <PaymentTable />
       </div>
     </main>
   </div>
@@ -15,6 +15,7 @@
 import PaymentForm from "./components/paymentForm.vue";
 import PaymentTable from "./components/paymentTable.vue";
 import Button from "./components/button.vue";
+import { mapActions } from "vuex";
 
 export default {
   name: "App",
@@ -25,39 +26,12 @@ export default {
   },
   data() {
     return {
-      paymentsList: [
-        { date: "13.05.2021", category: "Обучение", price: 1000 },
-        { date: "13.05.2021", category: "Обучение", price: 1000 },
-        { date: "13.05.2021", category: "Обучение", price: 1000 },
-        { date: "13.05.2021", category: "Обучение", price: 1000 },
-        { date: "13.05.2021", category: "Обучение", price: 1000 },
-        { date: "13.05.2021", category: "Обучение", price: 1000 },
-        { date: "13.05.2021", category: "Обучение", price: 1000 },
-        { date: "13.05.2021", category: "Обучение", price: 1000 },
-        { date: "13.05.2021", category: "Обучение", price: 1000 },
-        { date: "13.05.2021", category: "Обучение", price: 1000 },
-        { date: "13.05.2021", category: "Обучение", price: 1000 },
-        { date: "13.05.2021", category: "Обучение", price: 1000 },
-        { date: "13.05.2021", category: "Обучение", price: 1000 },
-        { date: "13.05.2021", category: "Обучение", price: 1000 },
-        { date: "13.05.2021", category: "Обучение", price: 1000 },
-        { date: "13.05.2021", category: "Обучение", price: 1000 },
-        { date: "13.05.2021", category: "Обучение", price: 1000 },
-        { date: "13.05.2021", category: "Обучение", price: 1000 },
-        { date: "13.05.2021", category: "Обучение", price: 1000 },
-        { date: "13.05.2021", category: "Обучение", price: 1000 },
-        { date: "13.05.2021", category: "Обучение", price: 1000 },
-        { date: "13.05.2021", category: "Обучение", price: 1000 },
-        { date: "13.05.2021", category: "Обучение", price: 1000 },
-        { date: "13.05.2021", category: "Обучение", price: 1000 },
-      ],
       title: "Добавить +",
     };
   },
   methods: {
-    add(data) {
-      this.paymentsList = [...this.paymentsList, data];
-    },
+    ...mapActions(["loadData"]),
+
     clickBtn() {
       let { title } = this;
       if (title === "Добавить +") {
@@ -69,6 +43,9 @@ export default {
         this.active = false;
       }
     },
+  },
+  mounted() {
+    this.loadData();
   },
 };
 </script>
