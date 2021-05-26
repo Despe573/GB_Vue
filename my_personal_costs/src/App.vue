@@ -30,7 +30,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["loadData"]),
+    ...mapActions(["loadPage", "fetchData"]),
 
     clickBtn() {
       let { title } = this;
@@ -45,7 +45,8 @@ export default {
     },
   },
   mounted() {
-    this.loadData();
+    this.fetchData(1);
+    this.loadPage(1);
   },
 };
 </script>

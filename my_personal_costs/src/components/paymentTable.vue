@@ -7,23 +7,14 @@
         <div :class="[$style.head]">Категория</div>
         <div :class="[$style.head]">Сумма</div>
       </li>
-      <li
-        :class="[$style.list]"
-        v-for="(item, index) in getPaymentsList.page1"
-        :key="index"
-      >
+      <li :class="[$style.list]" v-for="(item, index) in getItems" :key="index">
         <div :class="[$style.width]">{{ item.id }}</div>
         <div :class="[$style.width]">{{ item.date }}</div>
         <div :class="[$style.width]">{{ item.category }}</div>
         <div :class="[$style.width]">{{ item.price }}</div>
       </li>
     </ul>
-    <Pagenation
-      :length="10"
-      :itemsOnPage="itemsOnPage"
-      :curPage="page"
-      @PageNumber="getPage"
-    />
+    <Pagenation :curPage="page" @PageNumber="getPage" />
   </div>
 </template>
 
@@ -40,7 +31,6 @@ export default {
   data() {
     return {
       page: 1,
-      itemsOnPage: 10,
     };
   },
   methods: {
@@ -51,13 +41,10 @@ export default {
   computed: {
     ...mapGetters(["getPaymentsList"]),
 
-    // getItems() {
-    //   const { page, itemsOnPage } = this;
-    //   return this.getPaymentsList.slice(
-    //     itemsOnPage * (page - 1),
-    //     itemsOnPage * (page - 1) + itemsOnPage
-    //   );
-    // },
+    getItems() {
+      const { page, getPaymentsList } = this;
+      return Object.values(getPaymentsList)[page - 1];
+    },
   },
 };
 </script>

@@ -20,6 +20,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "pagenation",
   data() {
@@ -29,8 +31,6 @@ export default {
     };
   },
   props: {
-    length: Number,
-    itemsOnPage: Number,
     curPage: Number,
   },
   methods: {
@@ -42,8 +42,10 @@ export default {
     },
   },
   computed: {
+    ...mapGetters(["getPaymentsList"]),
+
     numOfPage() {
-      return Math.ceil(this.length / this.itemsOnPage);
+      return Object.keys(this.getPaymentsList).length;
     },
   },
 };
