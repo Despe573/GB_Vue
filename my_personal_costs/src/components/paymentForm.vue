@@ -1,9 +1,11 @@
 <template>
   <div :class="[$style.wrapper]">
     <label :class="[$style.label]">Дата</label>
+    <br />
     <input :class="[$style.input]" v-model="date" />
     <br />
     <label :class="[$style.label]">Категория</label>
+    <br />
     <input
       type="text"
       :class="[$style.input]"
@@ -21,6 +23,7 @@
     </datalist>
     <br />
     <label :class="[$style.label]">Сумма</label>
+    <br />
     <input :class="[$style.input]" placeholder="Сумма" v-model="price" />
     <br />
     <button :class="[$style.btn]" @click="onSave()">Сохранить</button>
