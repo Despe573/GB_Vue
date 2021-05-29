@@ -2,7 +2,7 @@
   <div :class="[$style.wrapper]">
     <label :class="[$style.label]">Дата</label>
     <br />
-    <input :class="[$style.input]" v-model="date" />
+    <input type="date" :class="[$style.input]" v-model="date" />
     <br />
     <label :class="[$style.label]">Категория</label>
     <br />
@@ -47,17 +47,22 @@ export default {
     ...mapActions(["fetchCategoryData"]),
 
     onSave() {
-      const {
+      let {
         date,
         category,
         price,
+        formatDate,
         saveNewPayment,
         getCategoryList,
         setCategoryData,
       } = this;
 
+      if (date === "") {
+        date = new Date();
+      }
+
       let data = {
-        date: date,
+        date: formatDate(date),
         category: category,
         price: price,
       };
@@ -66,6 +71,29 @@ export default {
       if (!getCategoryList.includes(category)) {
         setCategoryData(category);
       }
+    },
+
+    formatDate(item) {
+      let date = new Date(item);
+      let year = date.getFullYear();
+      let month = date.getMonth();
+      let day = date.getDate();
+      let formatMonth = [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08",
+        "09",
+        "10",
+        "11",
+        "12",
+      ];
+
+      return `${day}.${formatMonth[month]}.${year}`;
     },
   },
   computed: {
