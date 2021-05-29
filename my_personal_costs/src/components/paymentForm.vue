@@ -1,9 +1,26 @@
 <template>
   <div :class="[$style.wrapper]">
-    <input :class="[$style.input]" placeholder="Дата" v-model="date" />
+    <label :class="[$style.label]">Дата</label>
+    <input :class="[$style.input]" v-model="date" />
     <br />
-    <input :class="[$style.input]" placeholder="Категория" v-model="category" />
+    <label :class="[$style.label]">Категория</label>
+    <input
+      type="text"
+      :class="[$style.input]"
+      v-model="category"
+      list="category"
+    />
+    <datalist id="category" :class="[$style.input]">
+      <option
+        v-for="(elem, index) in getCategoryList"
+        :key="index"
+        :value="elem"
+      >
+        {{ elem }}
+      </option>
+    </datalist>
     <br />
+    <label :class="[$style.label]">Сумма</label>
     <input :class="[$style.input]" placeholder="Сумма" v-model="price" />
     <br />
     <button :class="[$style.btn]" @click="onSave()">Сохранить</button>
@@ -11,7 +28,7 @@
 </template>
 
 <script>
-import { mapMutations } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "paymentForm",
@@ -23,16 +40,38 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(["saveNewPayment"]),
+    ...mapMutations(["saveNewPayment", "setCategoryData"]),
+    ...mapActions(["fetchCategoryData"]),
 
     onSave() {
+      const {
+        date,
+        category,
+        price,
+        saveNewPayment,
+        getCategoryList,
+        setCategoryData,
+      } = this;
+
       let data = {
-        date: this.date,
-        category: this.category,
-        price: this.price,
+        date: date,
+        category: category,
+        price: price,
       };
-      this.saveNewPayment(data);
+      saveNewPayment(data);
+
+      if (!getCategoryList.includes(category)) {
+        setCategoryData(category);
+      }
     },
+  },
+  computed: {
+    ...mapGetters(["getCategoryList"]),
+  },
+  mounted() {
+    if (!this.getCategoryList.length) {
+      this.fetchCategoryData();
+    }
   },
 };
 </script>
@@ -51,6 +90,10 @@ export default {
   font-size: 18px;
   font-weight: 100;
   box-sizing: border-box;
+  border: 1px solid black;
+}
+.label {
+  padding-bottom: 8px;
 }
 .btn {
   border-radius: 4px;

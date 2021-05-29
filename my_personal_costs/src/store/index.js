@@ -6,9 +6,10 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
         paymentsData: {},
+        categoryData: [],
     },
     mutations: {
-        setStoreData(state, payload) {
+        setPaymentData(state, payload) {
             state.paymentsData = payload;
         },
         saveNewPayment(state, payload) {
@@ -29,10 +30,17 @@ export default new Vuex.Store({
                 }
             }
 
-        }
+        },
+        setCategoryData(state, payload) {
+            if (!Array.isArray(payload)) {
+                payload = [payload];
+            }
+            state.categoryData.push(...payload);
+        },
     },
     getters: {
         getPaymentsList: state => state.paymentsData,
+        getCategoryList: state => state.categoryData,
 
     },
     actions: {
@@ -73,7 +81,20 @@ export default new Vuex.Store({
                 })
             }, 0)
                 .then(res => {
-                    commit('setStoreData', res);
+                    commit('setPaymentData', res);
+                },
+                    err => {
+                        console.log(Error);
+                    })
+        },
+        fetchCategoryData({ commit }) {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve(["Обучение", "Еда", "Проезд", "Товары для дома", "Товары для Животных", "Одежда", "Развлечения", "Лекарства"]);
+                })
+            }, 0)
+                .then(res => {
+                    commit('setCategoryData', res);
                 },
                     err => {
                         console.log(Error);
