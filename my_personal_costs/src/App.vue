@@ -45,8 +45,7 @@ export default {
     },
   },
   mounted() {
-    this.fetchData(1);
-    this.loadPage(1);
+    this.fetchData();
   },
 };
 </script>
