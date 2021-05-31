@@ -1,9 +1,10 @@
 <template>
   <div :class="[$style.wrapper]">
-    <label :class="[$style.label]">Дата</label>
-    <input :class="[$style.input]" v-model="date" />
+    <label>Дата</label>
     <br />
-    <label :class="[$style.label]">Категория</label>
+    <input type="date" :class="[$style.input]" v-model="date" /> <br />
+    <label>Категория</label>
+    <br />
     <input
       type="text"
       :class="[$style.input]"
@@ -20,8 +21,9 @@
       </option>
     </datalist>
     <br />
-    <label :class="[$style.label]">Сумма</label>
-    <input :class="[$style.input]" placeholder="Сумма" v-model="price" />
+    <label>Сумма</label>
+    <br />
+    <input :class="[$style.input]" placeholder="500" v-model="price" />
     <br />
     <button :class="[$style.btn]" @click="onSave()">Сохранить</button>
   </div>
@@ -36,7 +38,7 @@ export default {
     return {
       date: "",
       category: "",
-      price: 0,
+      price: "",
     };
   },
   methods: {
@@ -44,25 +46,53 @@ export default {
     ...mapActions(["fetchCategoryData"]),
 
     onSave() {
-      const {
+      let {
         date,
         category,
         price,
+        formatDate,
         saveNewPayment,
         getCategoryList,
         setCategoryData,
       } = this;
 
+      if (date === "") {
+        date = new Date();
+      }
+
       let data = {
-        date: date,
+        date: formatDate(date),
         category: category,
         price: price,
       };
+
       saveNewPayment(data);
 
       if (!getCategoryList.includes(category)) {
         setCategoryData(category);
       }
+    },
+
+    formatDate(item) {
+      let date = new Date(item);
+      let year = date.getFullYear();
+      let month = date.getMonth();
+      let day = date.getDate();
+      let formatMonth = [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08",
+        "09",
+        "10",
+        "11",
+        "12",
+      ];
+      return `${day}.${formatMonth[month]}.${year}`;
     },
   },
   computed: {
@@ -81,6 +111,7 @@ export default {
   margin-top: 1em;
 }
 .input {
+  margin-top: 8px;
   margin-bottom: 20px;
   padding: 8px;
   width: 200px;
@@ -91,9 +122,6 @@ export default {
   font-weight: 100;
   box-sizing: border-box;
   border: 1px solid black;
-}
-.label {
-  padding-bottom: 8px;
 }
 .btn {
   border-radius: 4px;

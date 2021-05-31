@@ -46,6 +46,9 @@ export default {
       return Object.values(getPaymentsList)[page - 1];
     },
   },
+  mounted() {
+    this.page = +this.$route.params.page;
+  },
 };
 </script>
 
