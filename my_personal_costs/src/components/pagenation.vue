@@ -1,20 +1,29 @@
 <template>
   <div :class="[$style.center]">
     <div :class="[$style.wrapper]">
-      <div :class="[$style.pageBtn]" @click="clickPage(curPage - 1)">
+      <router-link
+        tag="div"
+        :to="{ name: 'dashboard', params: { page: clickPage(curPage - 1) } }"
+        :class="[$style.pageBtn]"
+      >
         {{ pre }}
-      </div>
-      <div
+      </router-link>
+      <router-link
+        tag="div"
         v-for="p in numOfPage"
         :key="p"
         :class="[$style.pageBtn, { [$style.active]: curPage === p }]"
-        @click="clickPage(p)"
+        :to="{ name: 'dashboard', params: { page: p } }"
       >
         {{ p }}
-      </div>
-      <div :class="[$style.pageBtn]" @click="clickPage(curPage + 1)">
+      </router-link>
+      <router-link
+        tag="div"
+        :to="{ name: 'dashboard', params: { page: clickPage(curPage + 1) } }"
+        :class="[$style.pageBtn]"
+      >
         {{ next }}
-      </div>
+      </router-link>
     </div>
   </div>
 </template>
@@ -35,10 +44,13 @@ export default {
   },
   methods: {
     clickPage(p) {
-      if (p < 1 || p > this.numOfPage) {
-        return;
+      if (p < 1) {
+        return 1;
       }
-      this.$emit("PageNumber", p);
+      if (p > this.numOfPage) {
+        return (p = this.numOfPage);
+      }
+      return p;
     },
   },
   computed: {

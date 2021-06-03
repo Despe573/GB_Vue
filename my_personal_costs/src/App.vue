@@ -16,10 +16,6 @@
 <script>
 export default {
   name: "App",
-  // mounted() {
-  //   console.log(this.$router);
-  //   this.$router.push({ name: dashboard });
-  // },
 };
 </script>
 

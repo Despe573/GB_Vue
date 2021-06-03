@@ -43,6 +43,11 @@ export default {
   },
   mounted() {
     this.fetchData();
+    if (!!this.$route.params.category) {
+      this.title = "Закрыть";
+    } else {
+      this.title = "Добавить +";
+    }
   },
 };
 </script>

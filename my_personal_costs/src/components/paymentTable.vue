@@ -14,7 +14,7 @@
         <div :class="[$style.width]">{{ item.price }}</div>
       </li>
     </ul>
-    <Pagenation :curPage="page" @PageNumber="getPage" />
+    <Pagenation :curPage="page" />
   </div>
 </template>
 
@@ -33,17 +33,16 @@ export default {
       page: 1,
     };
   },
-  methods: {
-    getPage(p) {
-      this.page = p;
-    },
-  },
+  methods: {},
   computed: {
     ...mapGetters(["getPaymentsList"]),
 
     getItems() {
       const { page, getPaymentsList } = this;
       return Object.values(getPaymentsList)[page - 1];
+    },
+    getPage() {
+      this.page = +this.$route.params.page;
     },
   },
   mounted() {

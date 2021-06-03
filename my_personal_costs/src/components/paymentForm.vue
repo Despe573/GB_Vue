@@ -102,6 +102,22 @@ export default {
     if (!this.getCategoryList.length) {
       this.fetchCategoryData();
     }
+
+    this.category = this.$route.params.category;
+    if (this.$route.params.category == "undefined") {
+      this.category = "";
+    }
+
+    this.price = Number(this.$route.query.value);
+    if (isNaN(this.price)) {
+      this.price = "";
+    }
+
+    if (this.category !== "" && this.price !== "") {
+      console.log(this.category !== "");
+      console.log(this.price !== "");
+      this.onSave();
+    }
   },
 };
 </script>
