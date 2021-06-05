@@ -65,12 +65,13 @@ export default {
         category: category,
         price: price,
       };
-
       saveNewPayment(data);
 
       if (!getCategoryList.includes(category)) {
         setCategoryData(category);
       }
+      console.log(data);
+      console.log(getCategoryList);
     },
 
     formatDate(item) {
@@ -114,8 +115,6 @@ export default {
     }
 
     if (this.category !== "" && this.price !== "") {
-      console.log(this.category !== "");
-      console.log(this.price !== "");
       this.onSave();
     }
   },
