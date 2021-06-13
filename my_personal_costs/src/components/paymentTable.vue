@@ -22,7 +22,6 @@
 <script>
 import Pagenation from "./pagenation";
 import { mapGetters } from "vuex";
-
 export default {
   name: "paymentTable",
   components: {
@@ -36,12 +35,13 @@ export default {
   methods: {},
   computed: {
     ...mapGetters(["getPaymentsList"]),
-
     getItems() {
       const { page, getPaymentsList } = this;
       return Object.values(getPaymentsList)[page - 1];
     },
-    getPage() {
+  },
+  watch: {
+    "$route.path": function () {
       this.page = +this.$route.params.page;
     },
   },

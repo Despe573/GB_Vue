@@ -2,23 +2,19 @@
   <main>
     <Button @click="clickBtn" :title="title" />
     <div :class="[$style.wrapper]">
-      <PaymentForm v-show="this.title === 'Закрыть'" />
       <PaymentTable />
     </div>
   </main>
 </template>
 
 <script>
-import PaymentForm from "../components/paymentForm.vue";
 import PaymentTable from "../components/paymentTable.vue";
 import Button from "../components/button.vue";
 import { mapActions } from "vuex";
-
 export default {
   name: "Dashboard",
   components: {
     PaymentTable,
-    PaymentForm,
     Button,
   },
   data() {
@@ -28,22 +24,23 @@ export default {
   },
   methods: {
     ...mapActions(["loadPage", "fetchData"]),
-
     clickBtn() {
       let { title } = this;
       if (title === "Добавить +") {
         this.title = "Закрыть";
-        this.active = true;
+        console.log(this.$modal);
+        this.$modal.show("PaymentForm");
       }
       if (title === "Закрыть") {
         this.title = "Добавить +";
-        this.active = false;
+        console.log(this.$modal);
+        this.$modal.close();
       }
     },
   },
   mounted() {
     this.fetchData();
-    if (!!this.$route.params.category) {
+    if (this.$route.params.category) {
       this.title = "Закрыть";
     } else {
       this.title = "Добавить +";

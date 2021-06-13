@@ -26,6 +26,7 @@
     <input :class="[$style.input]" placeholder="500" v-model="price" />
     <br />
     <button :class="[$style.btn]" @click="onSave()">Сохранить</button>
+    <button :class="[$style.btn]" @click="onclose()">Закрыть</button>
   </div>
 </template>
 
@@ -74,6 +75,11 @@ export default {
       console.log(getCategoryList);
     },
 
+    onclose() {
+      console.log(this.$modal);
+      this.$modal.close();
+    },
+
     formatDate(item) {
       let date = new Date(item);
       let year = date.getFullYear();
@@ -115,7 +121,7 @@ export default {
     }
 
     if (this.category !== "" && this.price !== "") {
-      this.onSave();
+      setTimeout(this.onSave(), 0);
     }
   },
 };
