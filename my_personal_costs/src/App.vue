@@ -10,7 +10,7 @@
       </nav>
     </header>
     <router-view />
-    <ModalWindow />
+    <ModalWindow v-if="modalName" :modalName="modalName" />
   </div>
 </template>
 
@@ -19,6 +19,28 @@ import ModalWindow from "./components/modalWindow.vue";
 export default {
   name: "App",
   components: { ModalWindow },
+  data() {
+    return {
+      modalName: "",
+    };
+  },
+  methods: {
+    onShow(settings) {
+      this.modalName = settings.name;
+    },
+    onclose() {
+      console.log(close);
+      this.modalName = "";
+    },
+  },
+  mounted() {
+    this.$modal.EventBus.$on("show", this.onShow);
+    this.$modal.EventBus.$on("close", this.onClose);
+  },
+  beforeDestroy() {
+    this.$modal.EventBus.$off("show", this.onShow);
+    this.$modal.EventBus.$off("close", this.onClose);
+  },
 };
 </script>
 

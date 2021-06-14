@@ -26,7 +26,7 @@
     <input :class="[$style.input]" placeholder="500" v-model="price" />
     <br />
     <button :class="[$style.btn]" @click="onSave()">Сохранить</button>
-    <button :class="[$style.btn]" @click="onclose()">Закрыть</button>
+    <button :class="[$style.btn]" @click="onСlose()">Закрыть</button>
   </div>
 </template>
 
@@ -74,7 +74,7 @@ export default {
       }
     },
 
-    onclose() {
+    onСlose() {
       console.log(this.$modal);
       this.$modal.close();
     },
