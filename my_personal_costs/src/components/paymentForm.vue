@@ -66,13 +66,12 @@ export default {
         category: category,
         price: price,
       };
+
       saveNewPayment(data);
 
       if (!getCategoryList.includes(category)) {
         setCategoryData(category);
       }
-      console.log(data);
-      console.log(getCategoryList);
     },
 
     onclose() {

@@ -1,5 +1,5 @@
 <template>
-  <div :class="[$style.wrapper]" v-if="modalName === 'PaymentForm'">
+  <div :class="[$style.wrapper]" v-if="modalName">
     <div :class="[$style.overlay]"></div>
     <div :class="[$style.content]">
       <PaymentForm v-if="modalName === 'PaymentForm'" />
@@ -15,9 +15,27 @@ export default {
   components: {
     PaymentForm,
   },
-  props: {
-    modalName: String,
-    modalSettings: Object,
+  data() {
+    return {
+      modalName: "",
+    };
+  },
+  methods: {
+    onShow(settings) {
+      this.modalName = settings.name;
+    },
+    onclose() {
+      console.log(close);
+      this.modalName = "";
+    },
+  },
+  mounted() {
+    this.$modal.EventBus.$on("show", this.onShow);
+    this.$modal.EventBus.$on("close", this.onClose);
+  },
+  beforeDestroy() {
+    this.$modal.EventBus.$off("show", this.onShow);
+    this.$modal.EventBus.$off("close", this.onClose);
   },
 };
 </script>

@@ -28,7 +28,6 @@ export default {
       let { title } = this;
       if (title === "Добавить +") {
         this.title = "Закрыть";
-        console.log(this.$modal);
         this.$modal.show("PaymentForm");
       }
       if (title === "Закрыть") {
