@@ -1,6 +1,6 @@
 <template>
   <main>
-    <Button @click="clickBtn" :title="title" />
+    <Button @click="clickBtn" :title="title" @ />
     <div :class="[$style.wrapper]">
       <PaymentTable />
     </div>
@@ -32,9 +32,11 @@ export default {
       }
       if (title === "Закрыть") {
         this.title = "Добавить +";
-        console.log(this.$modal);
-        this.$modal.close();
+        this.$modal.hide();
       }
+    },
+    renameButton() {
+      this.title = "Добавить +";
     },
   },
   mounted() {
@@ -44,6 +46,11 @@ export default {
     } else {
       this.title = "Добавить +";
     }
+
+    this.$modal.EventBus.$on("hide", this.renameButton);
+  },
+  beforeDestroy() {
+    this.$modal.EventBus.$off("hide", this.renameButton);
   },
 };
 </script>

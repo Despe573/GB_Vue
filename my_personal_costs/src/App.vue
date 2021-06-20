@@ -1,5 +1,9 @@
 <template>
   <div>
+    <transition name="fade">
+      <ModalWindow v-if="modalName" :modalName="modalName" />
+    </transition>
+
     <header :class="[$style.header]">
       Мои расходы
       <nav :class="[$style.menu]">
@@ -10,12 +14,12 @@
       </nav>
     </header>
     <router-view />
-    <ModalWindow v-if="modalName" :modalName="modalName" />
   </div>
 </template>
 
 <script>
 import ModalWindow from "./components/modalWindow.vue";
+
 export default {
   name: "App",
   components: { ModalWindow },
@@ -28,21 +32,32 @@ export default {
     onShow(settings) {
       this.modalName = settings.name;
     },
-    onclose() {
-      console.log(close);
+    onClose() {
       this.modalName = "";
     },
   },
   mounted() {
     this.$modal.EventBus.$on("show", this.onShow);
-    this.$modal.EventBus.$on("close", this.onClose);
+    this.$modal.EventBus.$on("hide", this.onClose);
   },
   beforeDestroy() {
     this.$modal.EventBus.$off("show", this.onShow);
-    this.$modal.EventBus.$off("close", this.onClose);
+    this.$modal.EventBus.$off("hide", this.onClose);
   },
 };
 </script>
+
+<style>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 1s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
+
 
 <style lang="scss" module>
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic);
@@ -56,6 +71,8 @@ body {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  width: 100%;
+  height: 100vh;
 }
 .header {
   min-width: 1300px;

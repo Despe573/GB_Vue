@@ -5,7 +5,7 @@ import store from './store/index.js';
 import router from './router/index.js';
 import modale from './plugins/modalWindow/index.js';
 
-Vue.config.productionTip = false
+// Vue.config.productionTip = false
 Vue.use(modale);
 
 new Vue({

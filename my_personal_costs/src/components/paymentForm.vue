@@ -75,8 +75,7 @@ export default {
     },
 
     onСlose() {
-      console.log(this.$modal);
-      this.$modal.close();
+      this.$modal.hide();
     },
 
     formatDate(item) {
